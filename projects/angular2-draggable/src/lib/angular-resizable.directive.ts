@@ -448,7 +448,7 @@ export class AngularResizableDirective implements OnInit, OnChanges, OnDestroy, 
       this._currPos.x = this._origPos.x + tmpX;
     }
 
-    this.checkBounds();
+    // this.checkBounds();
     this.checkSize();
     this.adjustByRatio();
     this.doResize();
@@ -467,25 +467,25 @@ export class AngularResizableDirective implements OnInit, OnChanges, OnDestroy, 
   }
 
   private adjustByRatio() {
-    if (this._aspectRatio && !this._adjusted) {
+    if (this._aspectRatio) {
       if (this._direction.e || this._direction.w) {
-        const newHeight = Math.floor(this._currSize.width / this._aspectRatio);
-
-        if (this._direction.n) {
-          this._currPos.y += this._currSize.height - newHeight;
-        }
-
-        this._currSize.height = newHeight;
-      } else {
-        const newWidth = Math.floor(this._aspectRatio * this._currSize.height);
-
-        if (this._direction.n) {
-          this._currPos.x += this._currSize.width - newWidth;
-        }
-
-        this._currSize.width = newWidth;
+          /** @type {?} */
+          const newHeight = Math.floor(this._currSize.width / this._aspectRatio);
+          if (this._direction.n) {
+              this._currPos.y += this._currSize.height - newHeight;
+          }
+          this._currSize.height = (newHeight>380)?380:newHeight;
       }
-    }
+      else {
+          /** @type {?} */
+          const newWidth = Math.floor(this._aspectRatio * this._currSize.height);
+          if (this._direction.n) {
+              this._currPos.x += this._currSize.width - newWidth;
+          }
+          this._currSize.width = newWidth;
+
+      }
+  }
   }
 
   private checkBounds() {
